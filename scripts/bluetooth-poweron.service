@@ -1,0 +1,15 @@
+[Unit]
+Description=Power on Bluetooth adapter
+After=bluetooth.service
+Requires=bluetooth.service
+
+[Service]
+Type=oneshot
+ExecStartPre=/usr/bin/sleep 3
+ExecStart=/usr/bin/bluetoothctl power on
+Restart=on-failure
+RestartSec=2
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

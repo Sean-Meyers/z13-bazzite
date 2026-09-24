@@ -1,0 +1,23 @@
+#!/bin/bash
+# Fix for ASUS ROG Z13 2025 keyboard lid causing spurious wakeups from suspend.
+# Disables USB wakeup before suspend to prevent keyboard detach/reattach from
+# immediately waking the system. Re-enables on resume.
+
+case $1 in
+    pre)
+        # Disable wakeup on all USB host controllers
+        for dev in XHC0 XHC1 XHC3 XHC4; do
+            if grep -q "^${dev}.*enabled" /proc/acpi/wakeup 2>/dev/null; then
+                echo "$dev" > /proc/acpi/wakeup
+            fi
+        done
+        ;;
+    post)
+        # Re-enable wakeup on USB host controllers
+        for dev in XHC0 XHC1 XHC3 XHC4; do
+            if grep -q "^${dev}.*disabled" /proc/acpi/wakeup 2>/dev/null; then
+                echo "$dev" > /proc/acpi/wakeup
+            fi
+        done
+        ;;
+esac

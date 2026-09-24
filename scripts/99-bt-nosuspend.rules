@@ -1,0 +1,3 @@
+# Disable USB autosuspend for MT7925 Bluetooth adapter (13d3:3608)
+# Prevents BT devices (mouse, etc.) from losing connection due to adapter suspend
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="13d3", ATTR{idProduct}=="3608", ATTR{power/control}="on"

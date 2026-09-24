@@ -1,0 +1,13 @@
+[Unit]
+Description=Auto-reconnect Bluetooth HID devices
+After=bluetooth.service
+Requires=bluetooth.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/bt-auto-reconnect.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
