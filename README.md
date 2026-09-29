@@ -1,8 +1,9 @@
 # z13-bazzite
 
 A custom [Bazzite](https://bazzite.gg) image for the **ASUS ROG Flow Z13 (2025, GZ302EA)**, built
-automatically by GitHub Actions. From the Root & Raid video *"I Stopped Installing Bazzite. I Build
-My Own Now."*
+automatically by GitHub Actions. From the Root & Raid video
+[*"ROG Flow Z13 on Linux: How I Customized Bazzite (3 Bugs I Hit)"*](https://youtu.be/DsqKCMzaBIE).
+The [written guide](https://rootandraid.com/guides/custom-bazzite-rog-flow-z13/) has every command from it.
 
 ## What it adds on top of stock Bazzite
 
@@ -54,6 +55,7 @@ rebooted into it and checked it.
 ## Notes
 
 - Kernel parameters are **not** in the image. They're per-machine (`rpm-ostree kargs`) and survive
-  image updates. This tablet needs some for display stability; see the video.
+  image updates. This tablet needs some for display stability; the
+  [guide](https://rootandraid.com/guides/custom-bazzite-rog-flow-z13/#bug-1-a-black-screen-at-full-brightness) has the exact ones.
 - Hardware-specific: the fixes were developed and tested on a GZ302EA. On other hardware, keep the method and change
   the fixes.
