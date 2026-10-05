@@ -7,7 +7,7 @@
 # from being undone.
 
 # 1. Start from stock Bazzite. Everything Bazzite gives you comes along for free.
-FROM ghcr.io/ublue-os/bazzite:stable
+FROM ghcr.io/ublue-os/bazzite-dx-gnome:stable
 
 # 2. Bake in the fixes and tools this tablet needs (see scripts/ for what each one does).
 COPY scripts/lightbar /usr/bin/lightbar
