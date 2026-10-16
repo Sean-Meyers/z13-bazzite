@@ -58,8 +58,8 @@ RUN curl -fsSL https://github.com/dahui/z13ctl/releases/download/v1.1.6/z13ctl_1
 # Install build dependencies and Python packages first, then verify dlib
 # using the exact interpreter that the Howdy launcher invokes.
 
-RUN mkdir -p /var/usrlocal/lib /var/usrlocal/lib64 && \
-    dnf install -y \
+# Install build dependencies and Python packages into the immutable /usr tree.
+RUN dnf install -y \
       python3-devel \
       python3-pip \
       python3-setuptools \
@@ -76,7 +76,7 @@ RUN mkdir -p /var/usrlocal/lib /var/usrlocal/lib64 && \
       libevdev-devel \
       libv4l-devel \
       git && \
-    /usr/bin/python -m pip install --no-cache-dir dlib elevate && \
+    /usr/bin/python -m pip install --no-cache-dir --prefix=/usr dlib elevate && \
     /usr/bin/python -m pip show dlib && \
     /usr/bin/python -c "import dlib; print('dlib version:', dlib.__version__)" && \
     ostree container commit
