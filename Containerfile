@@ -58,16 +58,24 @@ RUN mkdir -p /var/usrlocal/lib /var/usrlocal/lib64 && \
     dnf install -y \
       python3-devel \
       python3-pip \
+      python3-setuptools \
+      python3-wheel \
       cmake \
       gcc \
       gcc-c++ \
       make \
+      meson \
+      ninja-build \
       opencv-devel \
       pam-devel \
+      libevdev-devel \
+      inih-devel \
       libv4l-devel \
       git && \
     pip install dlib elevate --no-cache-dir && \
-    dnf copr enable -y principis/howdy-beta && \
-    dnf install -y howdy && \
-    dnf copr disable -y principis/howdy-beta && \
+    git clone --depth=1 https://github.com/boltgolt/howdy.git /tmp/howdy && \
+    meson setup /tmp/howdy/build /tmp/howdy && \
+    meson compile -C /tmp/howdy/build && \
+    meson install -C /tmp/howdy/build && \
+    rm -rf /tmp/howdy && \
     ostree container commit
