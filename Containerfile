@@ -53,7 +53,11 @@ RUN curl -fsSL https://github.com/dahui/z13ctl/releases/download/v1.1.6/z13ctl_1
     && rm -f /tmp/z13ctl \
     && ostree container commit
 
-# Build dlib/Howdy dependencies and install Howdy cleanly into /usr
+
+# 5. Howdy — facial recognition for PAM authentication.
+# Install build dependencies and Python packages first, then verify dlib
+# using the exact interpreter that the Howdy launcher invokes.
+
 RUN mkdir -p /var/usrlocal/lib /var/usrlocal/lib64 && \
     dnf install -y \
       python3-devel \
@@ -72,10 +76,16 @@ RUN mkdir -p /var/usrlocal/lib /var/usrlocal/lib64 && \
       libevdev-devel \
       libv4l-devel \
       git && \
-    pip install dlib elevate --no-cache-dir && \
-    git clone --depth=1 https://github.com/boltgolt/howdy.git /tmp/howdy-src && \
+    /usr/bin/python -m pip install --no-cache-dir dlib elevate && \
+    /usr/bin/python -m pip show dlib && \
+    /usr/bin/python -c "import dlib; print('dlib version:', dlib.__version__)" && \
+    ostree container commit
+
+# Download, compile, and install Howdy separately.
+RUN git clone --depth=1 https://github.com/boltgolt/howdy.git /tmp/howdy-src && \
     meson setup --prefix=/usr /tmp/howdy-src/build /tmp/howdy-src && \
     meson compile -C /tmp/howdy-src/build && \
     meson install -C /tmp/howdy-src/build && \
     rm -rf /tmp/howdy-src && \
     ostree container commit
+
