@@ -53,7 +53,7 @@ RUN curl -fsSL https://github.com/dahui/z13ctl/releases/download/v1.1.6/z13ctl_1
     && rm -f /tmp/z13ctl \
     && ostree container commit
 
-# Build dlib/Howdy dependencies and install Howdy
+# Build dlib/Howdy dependencies and install Howdy cleanly into /usr
 RUN mkdir -p /var/usrlocal/lib /var/usrlocal/lib64 && \
     dnf install -y \
       python3-devel \
@@ -68,14 +68,14 @@ RUN mkdir -p /var/usrlocal/lib /var/usrlocal/lib64 && \
       ninja-build \
       opencv-devel \
       pam-devel \
-      libevdev-devel \
       inih-devel \
+      libevdev-devel \
       libv4l-devel \
       git && \
     pip install dlib elevate --no-cache-dir && \
-    git clone --depth=1 https://github.com/boltgolt/howdy.git /tmp/howdy && \
-    meson setup /tmp/howdy/build /tmp/howdy && \
-    meson compile -C /tmp/howdy/build && \
-    meson install -C /tmp/howdy/build && \
-    rm -rf /tmp/howdy && \
+    git clone --depth=1 https://github.com/boltgolt/howdy.git /tmp/howdy-src && \
+    meson setup --prefix=/usr /tmp/howdy-src/build /tmp/howdy-src && \
+    meson compile -C /tmp/howdy-src/build && \
+    meson install -C /tmp/howdy-src/build && \
+    rm -rf /tmp/howdy-src && \
     ostree container commit
