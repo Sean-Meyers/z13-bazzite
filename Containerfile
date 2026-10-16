@@ -57,7 +57,6 @@ RUN curl -fsSL https://github.com/dahui/z13ctl/releases/download/v1.1.6/z13ctl_1
 RUN mkdir -p /var/usrlocal/lib /var/usrlocal/lib64 && \
     dnf install -y \
       python3-devel \
-      python3-dlib \
       python3-pip \
       cmake \
       gcc \
