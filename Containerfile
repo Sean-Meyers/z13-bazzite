@@ -54,7 +54,7 @@ RUN curl -fsSL https://github.com/dahui/z13ctl/releases/download/v1.1.6/z13ctl_1
     && ostree container commit
 
 # Build dlib/Howdy dependencies and install Howdy
-RUN mkdir -p /usr/local/lib /usr/local/lib64 && \
+RUN mkdir -p /var/usrlocal/lib /var/usrlocal/lib64 && \
     dnf install -y \
       python3-devel \
       python3-pip \
