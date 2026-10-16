@@ -53,20 +53,21 @@ RUN curl -fsSL https://github.com/dahui/z13ctl/releases/download/v1.1.6/z13ctl_1
     && rm -f /tmp/z13ctl \
     && ostree container commit
 
-# Install dependencies needed to compile dlib and Howdy
-RUN dnf install -y \
-    python3-devel \
-    python3-pip \
-    cmake \
-    gcc \
-    gcc-c++ \
-    make \
-    opencv-devel \
-    pam-devel \
-    libv4l-devel \
-    git \
-    && pip install dlib elevate --no-cache-dir \
-    && dnf copr enable -y principis/howdy-beta \
-    && dnf install -y howdy \
-    && dnf copr disable -y principis/howdy-beta \
-    && ostree container commit
+# Build dlib/Howdy dependencies and install Howdy
+RUN mkdir -p /usr/local/lib /usr/local/lib64 && \
+    dnf install -y \
+      python3-devel \
+      python3-pip \
+      cmake \
+      gcc \
+      gcc-c++ \
+      make \
+      opencv-devel \
+      pam-devel \
+      libv4l-devel \
+      git && \
+    pip install dlib elevate --no-cache-dir && \
+    dnf copr enable -y principis/howdy-beta && \
+    dnf install -y howdy && \
+    dnf copr disable -y principis/howdy-beta && \
+    ostree container commit
