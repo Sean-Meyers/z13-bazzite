@@ -52,3 +52,9 @@ RUN curl -fsSL https://github.com/dahui/z13ctl/releases/download/v1.1.6/z13ctl_1
     && install -m 0755 /tmp/z13ctl /usr/bin/z13ctl \
     && rm -f /tmp/z13ctl \
     && ostree container commit
+
+# Enable Howdy Copr & Install
+RUN dnf install -y dnf-plugins-core && \
+    dnf copr enable -y principis/howdy-beta && \
+    dnf install -y howdy || true && \
+    dnf copr disable -y principis/howdy-beta
