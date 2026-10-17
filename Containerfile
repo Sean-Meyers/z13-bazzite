@@ -71,6 +71,7 @@ RUN dnf install -y \
       meson \
       ninja-build \
       opencv-devel \
+      python3-opencv \
       pam-devel \
       inih-devel \
       libevdev-devel \
@@ -79,6 +80,7 @@ RUN dnf install -y \
     /usr/bin/python -m pip install --no-cache-dir --prefix=/usr dlib elevate && \
     /usr/bin/python -m pip show dlib && \
     /usr/bin/python -c "import dlib; print('dlib version:', dlib.__version__)" && \
+    /usr/bin/python -c "import cv2; print('OpenCV version:', cv2.__version__)" && \
     ostree container commit
 
 # Download, compile, and install Howdy separately.
