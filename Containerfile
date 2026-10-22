@@ -76,6 +76,8 @@ RUN dnf install -y \
       inih-devel \
       libevdev-devel \
       libv4l-devel \
+      wget \
+      bzip2 \
       git && \
     /usr/bin/python -m pip install --no-cache-dir --prefix=/usr dlib elevate && \
     /usr/bin/python -m pip show dlib && \
@@ -89,5 +91,13 @@ RUN git clone --depth=1 https://github.com/boltgolt/howdy.git /tmp/howdy-src && 
     meson compile -C /tmp/howdy-src/build && \
     meson install -C /tmp/howdy-src/build && \
     rm -rf /tmp/howdy-src && \
+    ostree container commit
+
+# Download and install the pretrained dlib models required by Howdy
+RUN cd /usr/share/dlib-data && \
+    bash ./install.sh && \
+    test -s shape_predictor_5_face_landmarks.dat && \
+    test -s mmod_human_face_detector.dat && \
+    test -s dlib_face_recognition_resnet_model_v1.dat && \
     ostree container commit
 
